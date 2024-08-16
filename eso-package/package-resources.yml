@@ -1,0 +1,69 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: external-secrets.external-secrets.io.0.0.0
+  labels:
+    spaces.tanzu.vmware.com/package-ref: external-secrets.external-secrets.io
+  annotations:
+    capability.tanzu.vmware.com/provides: |-
+      [{
+        "name": "external-secrets.external-secrets.io",
+        "displayName": "External Secrets",
+        "description": "Provides the ability to sync secrets from outside secret store using the external secrets operator",
+        "vendor": "External Secrets",
+        "tags": [ "Secrets Management" ],
+        "groupVersionKinds": [
+          { "apiVersion": " external-secrets.io/v1beta1", "kind": "ExternalSecret" },
+          { "apiVersion": " external-secrets.io/v1beta1", "kind": "SecretStore" }
+        ]
+      }]
+spec:
+  refName: external-secrets.external-secrets.io
+  releasedAt: null
+  template:
+    spec:
+      deploy:
+      - kapp: {}
+      fetch:
+      - git: {}
+      template:
+      - helmTemplate:
+          path: upstream
+      - ytt:
+          paths:
+          - '-'
+      - kbld: {}
+  valuesSchema:
+    openAPIv3: null
+  version: 0.0.0
+
+---
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: PackageMetadata
+metadata:
+  creationTimestamp: null
+  name: external-secrets.external-secrets.io
+spec:
+  displayName: external-secrets
+  longDescription: external-secrets.external-secrets.io
+  shortDescription: external-secrets.external-secrets.io
+
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    kctrl.carvel.dev/local-fetch-0: .
+  creationTimestamp: null
+  name: external-secrets
+spec:
+  packageRef:
+    refName: external-secrets.external-secrets.io
+    versionSelection:
+      constraints: 0.0.0
+  serviceAccountName: external-secrets-sa
+status:
+  conditions: null
+  friendlyDescription: ""
+  observedGeneration: 0

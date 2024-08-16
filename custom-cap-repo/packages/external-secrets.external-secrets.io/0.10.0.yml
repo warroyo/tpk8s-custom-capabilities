@@ -1,0 +1,994 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  annotations:
+    capability.tanzu.vmware.com/provides: |-
+      [{
+        "name": "external-secrets.external-secrets.io",
+        "displayName": "External Secrets",
+        "description": "Provides the ability to sync secrets from outside secret store using the external secrets operator",
+        "vendor": "External Secrets",
+        "tags": [ "Secrets Management" ],
+        "groupVersionKinds": [
+          { "apiVersion": " external-secrets.io/v1beta1", "kind": "ExternalSecret" },
+          { "apiVersion": " external-secrets.io/v1beta1", "kind": "SecretStore" }
+        ]
+      }]
+  creationTimestamp: null
+  labels:
+    spaces.tanzu.vmware.com/package-ref: external-secrets.external-secrets.io
+  name: external-secrets.external-secrets.io.0.10.0
+spec:
+  refName: external-secrets.external-secrets.io
+  releasedAt: "2024-08-16T18:17:01Z"
+  template:
+    spec:
+      deploy:
+      - kapp: {}
+      fetch:
+      - imgpkgBundle:
+          image: ghcr.io/warroyo/tpk8s-custom-capabilities/eso-package@sha256:93f16bd87d20aac8564d17bd8d0523665813a134f915947c5e0ebedae69fcab7
+      template:
+      - helmTemplate:
+          path: upstream
+      - ytt:
+          paths:
+          - '-'
+      - kbld:
+          paths:
+          - '-'
+          - .imgpkg/images.yml
+  valuesSchema:
+    openAPIv3:
+      properties:
+        affinity:
+          default: {}
+          type: object
+        bitwarden-sdk-server:
+          properties:
+            enabled:
+              default: false
+              type: boolean
+          type: object
+        certController:
+          properties:
+            affinity:
+              default: {}
+              type: object
+            create:
+              default: true
+              description: Specifies whether a certificate controller deployment be
+                created.
+              type: boolean
+            deploymentAnnotations:
+              default: {}
+              description: Annotations to add to Deployment
+              type: object
+            extraArgs:
+              default: {}
+              description: -- Map of extra arguments to pass to container.
+              type: object
+            extraEnv:
+              default: []
+              items: {}
+              type: array
+            extraVolumeMounts:
+              default: []
+              description: -- Extra volumes to mount to the container.
+              items: {}
+              type: array
+            extraVolumes:
+              default: []
+              description: -- Extra volumes to pass to pod.
+              items: {}
+              type: array
+            fullnameOverride:
+              default: ""
+              type: string
+            hostNetwork:
+              default: false
+              description: Run the certController on the host network
+              type: boolean
+            image:
+              properties:
+                flavour:
+                  default: ""
+                  type: string
+                pullPolicy:
+                  default: IfNotPresent
+                  type: string
+                repository:
+                  default: ghcr.io/external-secrets/external-secrets
+                  type: string
+                tag:
+                  default: ""
+                  type: string
+              type: object
+            imagePullSecrets:
+              default: []
+              items: {}
+              type: array
+            log:
+              description: Specifices Log Params to the Webhook
+              properties:
+                level:
+                  default: info
+                  type: string
+                timeEncoding:
+                  default: epoch
+                  type: string
+              type: object
+            metrics:
+              properties:
+                listen:
+                  properties:
+                    port:
+                      default: 8080
+                      type: integer
+                  type: object
+                service:
+                  properties:
+                    annotations:
+                      default: {}
+                      description: Additional service annotations
+                      type: object
+                    enabled:
+                      default: false
+                      description: Enable if you use another monitoring tool than
+                        Prometheus to scrape the metrics
+                      type: boolean
+                    port:
+                      default: 8080
+                      description: Metrics service port to scrape
+                      type: integer
+                  type: object
+              type: object
+            nameOverride:
+              default: ""
+              type: string
+            nodeSelector:
+              default: {}
+              type: object
+            podAnnotations:
+              default: {}
+              description: Annotations to add to Pod
+              type: object
+            podDisruptionBudget:
+              description: Pod disruption budget - for more details see https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+              properties:
+                enabled:
+                  default: false
+                  type: boolean
+                minAvailable:
+                  default: 1
+                  type: integer
+              type: object
+            podLabels:
+              default: {}
+              type: object
+            podSecurityContext:
+              properties:
+                enabled:
+                  default: true
+                  type: boolean
+              type: object
+            priorityClassName:
+              default: ""
+              description: Pod priority class name.
+              type: string
+            rbac:
+              properties:
+                create:
+                  default: true
+                  description: Specifies whether role and rolebinding resources should
+                    be created.
+                  type: boolean
+              type: object
+            readinessProbe:
+              properties:
+                address:
+                  default: ""
+                  description: Address for readiness probe
+                  type: string
+                port:
+                  default: 8081
+                  description: ReadinessProbe port for kubelet
+                  type: integer
+              type: object
+            replicaCount:
+              default: 1
+              type: integer
+            requeueInterval:
+              default: 5m
+              type: string
+            resources:
+              default: {}
+              type: object
+            revisionHistoryLimit:
+              default: 10
+              description: Specifies the amount of historic ReplicaSets k8s should
+                keep (see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#clean-up-policy)
+              type: integer
+            securityContext:
+              properties:
+                allowPrivilegeEscalation:
+                  default: false
+                  type: boolean
+                capabilities:
+                  properties:
+                    drop:
+                      default: []
+                      items:
+                        default: ALL
+                        type: string
+                      type: array
+                  type: object
+                enabled:
+                  default: true
+                  type: boolean
+                readOnlyRootFilesystem:
+                  default: true
+                  type: boolean
+                runAsNonRoot:
+                  default: true
+                  type: boolean
+                runAsUser:
+                  default: 1000
+                  type: integer
+                seccompProfile:
+                  properties:
+                    type:
+                      default: RuntimeDefault
+                      type: string
+                  type: object
+              type: object
+            serviceAccount:
+              properties:
+                annotations:
+                  default: {}
+                  description: Annotations to add to the service account.
+                  type: object
+                automount:
+                  default: true
+                  description: Automounts the service account token in all containers
+                    of the pod
+                  type: boolean
+                create:
+                  default: true
+                  description: Specifies whether a service account should be created.
+                  type: boolean
+                extraLabels:
+                  default: {}
+                  description: Extra Labels to add to the service account.
+                  type: object
+                name:
+                  default: ""
+                  description: The name of the service account to use. If not set
+                    and create is true, a name is generated using the fullname template.
+                  type: string
+              type: object
+            tolerations:
+              default: []
+              items: {}
+              type: array
+            topologySpreadConstraints:
+              default: []
+              items: {}
+              type: array
+          type: object
+        commonLabels:
+          default: {}
+          description: Additional labels added to all helm chart resources.
+          type: object
+        concurrent:
+          default: 1
+          description: Specifies the number of concurrent ExternalSecret Reconciles
+            external-secret executes at a time.
+          type: integer
+        controllerClass:
+          default: ""
+          description: If set external secrets will filter matching Secret Stores
+            with the appropriate controller values.
+          type: string
+        crds:
+          properties:
+            annotations:
+              default: {}
+              type: object
+            conversion:
+              properties:
+                enabled:
+                  default: true
+                  type: boolean
+              type: object
+            createClusterExternalSecret:
+              default: true
+              description: If true, create CRDs for Cluster External Secret.
+              type: boolean
+            createClusterSecretStore:
+              default: true
+              description: If true, create CRDs for Cluster Secret Store.
+              type: boolean
+            createPushSecret:
+              default: true
+              description: If true, create CRDs for Push Secret.
+              type: boolean
+          type: object
+        createOperator:
+          default: true
+          description: Specifies whether an external secret operator deployment be
+            created.
+          type: boolean
+        deploymentAnnotations:
+          default: {}
+          description: Annotations to add to Deployment
+          type: object
+        dnsConfig:
+          default: {}
+          description: Specifies `dnsOptions` to deployment
+          type: object
+        dnsPolicy:
+          default: ClusterFirst
+          description: Specifies `dnsPolicy` to deployment
+          type: string
+        extendedMetricLabels:
+          default: false
+          description: If true external secrets will use recommended kubernetes annotations
+            as prometheus metric labels.
+          type: boolean
+        extraArgs:
+          default: {}
+          description: -- Map of extra arguments to pass to container.
+          type: object
+        extraContainers:
+          default: []
+          description: -- Extra containers to add to the pod.
+          items: {}
+          type: array
+        extraEnv:
+          default: []
+          description: -- Extra environment variables to add to container.
+          items: {}
+          type: array
+        extraObjects:
+          default: []
+          description: -- Extra Kubernetes objects to deploy with the helm chart
+          items: {}
+          type: array
+        extraVolumeMounts:
+          default: []
+          description: -- Extra volumes to mount to the container.
+          items: {}
+          type: array
+        extraVolumes:
+          default: []
+          description: -- Extra volumes to pass to pod.
+          items: {}
+          type: array
+        fullnameOverride:
+          default: ""
+          type: string
+        global:
+          properties:
+            affinity:
+              default: {}
+              type: object
+            compatibility:
+              properties:
+                openshift:
+                  properties:
+                    adaptSecurityContext:
+                      default: auto
+                      description: 'Manages the securityContext properties to make
+                        them compatible with OpenShift. Possible values: auto - Apply
+                        configurations if it is detected that OpenShift is the target
+                        platform. force - Always apply configurations. disabled -
+                        No modification applied.'
+                      type: string
+                  type: object
+              type: object
+            nodeSelector:
+              default: {}
+              type: object
+            tolerations:
+              default: []
+              items: {}
+              type: array
+            topologySpreadConstraints:
+              default: []
+              items: {}
+              type: array
+          type: object
+        hostNetwork:
+          default: false
+          description: Run the controller on the host network
+          type: boolean
+        image:
+          properties:
+            flavour:
+              default: ""
+              description: The flavour of tag you want to use There are different
+                image flavours available, like distroless and ubi. Please see GitHub
+                release notes for image tags for these flavors. By default, the distroless
+                image is used.
+              type: string
+            pullPolicy:
+              default: IfNotPresent
+              type: string
+            repository:
+              default: ghcr.io/external-secrets/external-secrets
+              type: string
+            tag:
+              default: ""
+              description: The image tag to use. The default is the chart appVersion.
+              type: string
+          type: object
+        imagePullSecrets:
+          default: []
+          items: {}
+          type: array
+        installCRDs:
+          default: true
+          description: If set, install and upgrade CRDs through helm chart.
+          type: boolean
+        leaderElect:
+          default: false
+          description: If true, external-secrets will perform leader election between
+            instances to ensure no more than one instance of external-secrets operates
+            at a time.
+          type: boolean
+        log:
+          description: Specifices Log Params to the Webhook
+          properties:
+            level:
+              default: info
+              type: string
+            timeEncoding:
+              default: epoch
+              type: string
+          type: object
+        metrics:
+          properties:
+            listen:
+              properties:
+                port:
+                  default: 8080
+                  type: integer
+              type: object
+            service:
+              properties:
+                annotations:
+                  default: {}
+                  description: Additional service annotations
+                  type: object
+                enabled:
+                  default: false
+                  description: Enable if you use another monitoring tool than Prometheus
+                    to scrape the metrics
+                  type: boolean
+                port:
+                  default: 8080
+                  description: Metrics service port to scrape
+                  type: integer
+              type: object
+          type: object
+        nameOverride:
+          default: ""
+          type: string
+        namespaceOverride:
+          default: ""
+          type: string
+        nodeSelector:
+          default: {}
+          type: object
+        podAnnotations:
+          default: {}
+          description: Annotations to add to Pod
+          type: object
+        podDisruptionBudget:
+          description: Pod disruption budget - for more details see https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+          properties:
+            enabled:
+              default: false
+              type: boolean
+            minAvailable:
+              default: 1
+              type: integer
+          type: object
+        podLabels:
+          default: {}
+          type: object
+        podSecurityContext:
+          properties:
+            enabled:
+              default: true
+              type: boolean
+          type: object
+        podSpecExtra:
+          default: {}
+          description: Any extra pod spec on the deployment
+          type: object
+        priorityClassName:
+          default: ""
+          description: Pod priority class name.
+          type: string
+        processClusterExternalSecret:
+          default: true
+          description: if true, the operator will process cluster external secret.
+            Else, it will ignore them.
+          type: boolean
+        processClusterStore:
+          default: true
+          description: if true, the operator will process cluster store. Else, it
+            will ignore them.
+          type: boolean
+        processPushSecret:
+          default: true
+          description: if true, the operator will process push secret. Else, it will
+            ignore them.
+          type: boolean
+        rbac:
+          properties:
+            create:
+              default: true
+              description: Specifies whether role and rolebinding resources should
+                be created.
+              type: boolean
+            servicebindings:
+              properties:
+                create:
+                  default: true
+                  description: Specifies whether a clusterrole to give servicebindings
+                    read access should be created.
+                  type: boolean
+              type: object
+          type: object
+        replicaCount:
+          default: 1
+          type: integer
+        resources:
+          default: {}
+          type: object
+        revisionHistoryLimit:
+          default: 10
+          description: Specifies the amount of historic ReplicaSets k8s should keep
+            (see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#clean-up-policy)
+          type: integer
+        scopedNamespace:
+          default: ""
+          description: If set external secrets are only reconciled in the provided
+            namespace
+          type: string
+        scopedRBAC:
+          default: false
+          description: Must be used with scopedNamespace. If true, create scoped RBAC
+            roles under the scoped namespace and implicitly disable cluster stores
+            and cluster external secrets
+          type: boolean
+        securityContext:
+          properties:
+            allowPrivilegeEscalation:
+              default: false
+              type: boolean
+            capabilities:
+              properties:
+                drop:
+                  default: []
+                  items:
+                    default: ALL
+                    type: string
+                  type: array
+              type: object
+            enabled:
+              default: true
+              type: boolean
+            readOnlyRootFilesystem:
+              default: true
+              type: boolean
+            runAsNonRoot:
+              default: true
+              type: boolean
+            runAsUser:
+              default: 1000
+              type: integer
+            seccompProfile:
+              properties:
+                type:
+                  default: RuntimeDefault
+                  type: string
+              type: object
+          type: object
+        service:
+          properties:
+            ipFamilies:
+              default: []
+              description: Sets the families that should be supported and the order
+                in which they should be applied to ClusterIP as well. Can be IPv4
+                and/or IPv6.
+              items: {}
+              type: array
+            ipFamilyPolicy:
+              default: ""
+              description: Set the ip family policy to configure dual-stack see [Configure
+                dual-stack](https://kubernetes.io/docs/concepts/services-networking/dual-stack/#services)
+              type: string
+          type: object
+        serviceAccount:
+          properties:
+            annotations:
+              default: {}
+              description: Annotations to add to the service account.
+              type: object
+            automount:
+              default: true
+              description: Automounts the service account token in all containers
+                of the pod
+              type: boolean
+            create:
+              default: true
+              description: Specifies whether a service account should be created.
+              type: boolean
+            extraLabels:
+              default: {}
+              description: Extra Labels to add to the service account.
+              type: object
+            name:
+              default: ""
+              description: The name of the service account to use. If not set and
+                create is true, a name is generated using the fullname template.
+              type: string
+          type: object
+        serviceMonitor:
+          properties:
+            additionalLabels:
+              default: {}
+              description: Additional labels
+              type: object
+            enabled:
+              default: false
+              description: Specifies whether to create a ServiceMonitor resource for
+                collecting Prometheus metrics
+              type: boolean
+            honorLabels:
+              default: false
+              description: Let prometheus add an exported_ prefix to conflicting labels
+              type: boolean
+            interval:
+              default: 30s
+              description: Interval to scrape metrics
+              type: string
+            metricRelabelings:
+              default: []
+              description: Metric relabel configs to apply to samples before ingestion.
+                [Metric Relabeling](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs)
+              items: {}
+              type: array
+            namespace:
+              default: ""
+              description: namespace where you want to install ServiceMonitors
+              type: string
+            relabelings:
+              default: []
+              description: Relabel configs to apply to samples before ingestion. [Relabeling](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
+              items: {}
+              type: array
+            scrapeTimeout:
+              default: 25s
+              description: Timeout if metrics can't be retrieved in given time interval
+              type: string
+          type: object
+        tolerations:
+          default: []
+          items: {}
+          type: array
+        topologySpreadConstraints:
+          default: []
+          items: {}
+          type: array
+        webhook:
+          properties:
+            affinity:
+              default: {}
+              type: object
+            certCheckInterval:
+              default: 5m
+              description: Specifices the time to check if the cert is valid
+              type: string
+            certDir:
+              default: /tmp/certs
+              type: string
+            certManager:
+              properties:
+                addInjectorAnnotations:
+                  default: true
+                  description: Automatically add the cert-manager.io/inject-ca-from
+                    annotation to the webhooks and CRDs. As long as you have the cert-manager
+                    CA Injector enabled, this will automatically setup your webhook's
+                    CA to the one used by cert-manager. See https://cert-manager.io/docs/concepts/ca-injector
+                  type: boolean
+                cert:
+                  properties:
+                    annotations:
+                      default: {}
+                      description: Add extra annotations to the Certificate resource.
+                      type: object
+                    create:
+                      default: true
+                      description: Create a certificate resource within this chart.
+                        See https://cert-manager.io/docs/usage/certificate/
+                      type: boolean
+                    duration:
+                      default: 8760h
+                      description: Set the requested duration (i.e. lifetime) of the
+                        Certificate. See https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec
+                        One year by default.
+                      type: string
+                    issuerRef:
+                      description: For the Certificate created by this chart, setup
+                        the issuer. See https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.IssuerSpec
+                      properties:
+                        group:
+                          default: cert-manager.io
+                          type: string
+                        kind:
+                          default: Issuer
+                          type: string
+                        name:
+                          default: my-issuer
+                          type: string
+                      type: object
+                    renewBefore:
+                      default: ""
+                      description: How long before the currently issued certificate’s
+                        expiry cert-manager should renew the certificate. See https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.CertificateSpec
+                        Note that renewBefore should be greater than .webhook.lookaheadInterval
+                        since the webhook will check this far in advance that the
+                        certificate is valid.
+                      type: string
+                  type: object
+                enabled:
+                  default: false
+                  description: Enabling cert-manager support will disable the built
+                    in secret and switch to using cert-manager (installed separately)
+                    to automatically issue and renew the webhook certificate. This
+                    chart does not install cert-manager for you, See https://cert-manager.io/docs/
+                  type: boolean
+              type: object
+            create:
+              default: true
+              description: Specifies whether a webhook deployment be created.
+              type: boolean
+            deploymentAnnotations:
+              default: {}
+              description: Annotations to add to Deployment
+              type: object
+            extraArgs:
+              default: {}
+              description: -- Map of extra arguments to pass to container.
+              type: object
+            extraEnv:
+              default: []
+              items: {}
+              type: array
+            extraVolumeMounts:
+              default: []
+              description: -- Extra volumes to mount to the container.
+              items: {}
+              type: array
+            extraVolumes:
+              default: []
+              description: -- Extra volumes to pass to pod.
+              items: {}
+              type: array
+            failurePolicy:
+              default: Fail
+              description: 'Specifies whether validating webhooks should be created
+                with failurePolicy: Fail or Ignore'
+              type: string
+            fullnameOverride:
+              default: ""
+              type: string
+            hostNetwork:
+              default: false
+              description: Specifies if webhook pod should use hostNetwork or not.
+              type: boolean
+            image:
+              properties:
+                flavour:
+                  default: ""
+                  description: The flavour of tag you want to use
+                  type: string
+                pullPolicy:
+                  default: IfNotPresent
+                  type: string
+                repository:
+                  default: ghcr.io/external-secrets/external-secrets
+                  type: string
+                tag:
+                  default: ""
+                  description: The image tag to use. The default is the chart appVersion.
+                  type: string
+              type: object
+            imagePullSecrets:
+              default: []
+              items: {}
+              type: array
+            log:
+              description: Specifices Log Params to the Webhook
+              properties:
+                level:
+                  default: info
+                  type: string
+                timeEncoding:
+                  default: epoch
+                  type: string
+              type: object
+            lookaheadInterval:
+              default: ""
+              description: Specifices the lookaheadInterval for certificate validity
+              type: string
+            metrics:
+              properties:
+                listen:
+                  properties:
+                    port:
+                      default: 8080
+                      type: integer
+                  type: object
+                service:
+                  properties:
+                    annotations:
+                      default: {}
+                      description: Additional service annotations
+                      type: object
+                    enabled:
+                      default: false
+                      description: Enable if you use another monitoring tool than
+                        Prometheus to scrape the metrics
+                      type: boolean
+                    port:
+                      default: 8080
+                      description: Metrics service port to scrape
+                      type: integer
+                  type: object
+              type: object
+            nameOverride:
+              default: ""
+              type: string
+            nodeSelector:
+              default: {}
+              type: object
+            podAnnotations:
+              default: {}
+              description: Annotations to add to Pod
+              type: object
+            podDisruptionBudget:
+              description: Pod disruption budget - for more details see https://kubernetes.io/docs/concepts/workloads/pods/disruptions/
+              properties:
+                enabled:
+                  default: false
+                  type: boolean
+                minAvailable:
+                  default: 1
+                  type: integer
+              type: object
+            podLabels:
+              default: {}
+              type: object
+            podSecurityContext:
+              properties:
+                enabled:
+                  default: true
+                  type: boolean
+              type: object
+            port:
+              default: 10250
+              description: The port the webhook will listen to
+              type: integer
+            priorityClassName:
+              default: ""
+              description: Pod priority class name.
+              type: string
+            rbac:
+              properties:
+                create:
+                  default: true
+                  description: Specifies whether role and rolebinding resources should
+                    be created.
+                  type: boolean
+              type: object
+            readinessProbe:
+              properties:
+                address:
+                  default: ""
+                  description: Address for readiness probe
+                  type: string
+                port:
+                  default: 8081
+                  description: ReadinessProbe port for kubelet
+                  type: integer
+              type: object
+            replicaCount:
+              default: 1
+              type: integer
+            resources:
+              default: {}
+              type: object
+            revisionHistoryLimit:
+              default: 10
+              description: Specifies the amount of historic ReplicaSets k8s should
+                keep (see https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#clean-up-policy)
+              type: integer
+            secretAnnotations:
+              default: {}
+              description: Annotations to add to Secret
+              type: object
+            securityContext:
+              properties:
+                allowPrivilegeEscalation:
+                  default: false
+                  type: boolean
+                capabilities:
+                  properties:
+                    drop:
+                      default: []
+                      items:
+                        default: ALL
+                        type: string
+                      type: array
+                  type: object
+                enabled:
+                  default: true
+                  type: boolean
+                readOnlyRootFilesystem:
+                  default: true
+                  type: boolean
+                runAsNonRoot:
+                  default: true
+                  type: boolean
+                runAsUser:
+                  default: 1000
+                  type: integer
+                seccompProfile:
+                  properties:
+                    type:
+                      default: RuntimeDefault
+                      type: string
+                  type: object
+              type: object
+            serviceAccount:
+              properties:
+                annotations:
+                  default: {}
+                  description: Annotations to add to the service account.
+                  type: object
+                automount:
+                  default: true
+                  description: Automounts the service account token in all containers
+                    of the pod
+                  type: boolean
+                create:
+                  default: true
+                  description: Specifies whether a service account should be created.
+                  type: boolean
+                extraLabels:
+                  default: {}
+                  description: Extra Labels to add to the service account.
+                  type: object
+                name:
+                  default: ""
+                  description: The name of the service account to use. If not set
+                    and create is true, a name is generated using the fullname template.
+                  type: string
+              type: object
+            tolerations:
+              default: []
+              items: {}
+              type: array
+            topologySpreadConstraints:
+              default: []
+              items: {}
+              type: array
+          type: object
+      type: object
+  version: 0.10.0

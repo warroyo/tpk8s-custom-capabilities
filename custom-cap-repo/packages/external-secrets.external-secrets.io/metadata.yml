@@ -1,0 +1,9 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: PackageMetadata
+metadata:
+  creationTimestamp: null
+  name: external-secrets.external-secrets.io
+spec:
+  displayName: external-secrets
+  longDescription: external-secrets.external-secrets.io
+  shortDescription: external-secrets.external-secrets.io

@@ -1,0 +1,9 @@
+apiVersion: kctrl.carvel.dev/v1alpha1
+kind: PackageRepositoryBuild
+metadata:
+  creationTimestamp: "2024-08-16T17:47:17Z"
+  name: custom-cap.field.tanzu.com
+spec:
+  export:
+    imgpkgBundle:
+      image: ghcr.io/warroyo/tpk8s-custom-capabilities/custom-cap-repo

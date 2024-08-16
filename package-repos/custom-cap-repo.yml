@@ -1,0 +1,10 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  creationTimestamp: null
+  name: custom-cap-repo
+  namespace: tanzu-package-repo-global
+spec:
+  fetch:
+    imgpkgBundle:
+      image: ghcr.io/warroyo/tpk8s-custom-capabilities/custom-cap-repo:1.0.0

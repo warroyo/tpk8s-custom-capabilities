@@ -1,0 +1,16 @@
+#@ load("@ytt:data", "data")
+fullName:
+  clusterGroupName: #@ data.values.cg
+  name: capabilities
+spec:
+  atomicSpec:
+    interval: 300s
+    path: capabilities
+    prune: true
+    source:
+      name: capabilities
+      namespace: tanzu-continuousdelivery-resources
+type:
+  kind: Kustomization
+  package: vmware.tanzu.manage.v1alpha1.clustergroup.namespace.fluxcd.kustomization
+  version: v1alpha1
