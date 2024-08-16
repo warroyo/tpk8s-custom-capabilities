@@ -9,7 +9,7 @@ This example already has a pre-created package repo and package. To create your 
 This coud also be used for custom traits.
 
 
-another approach to this is to follow the steps in this repo that shows how to create capabilties without carvel packaging
+another approach to this is to follow the steps in this [repo](https://github.com/warroyo/eso-capability) that shows how to create capabilties without carvel packaging
 
 
 ## Setup the TMC plugins to work with Tanzu Platform
