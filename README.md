@@ -89,6 +89,7 @@ tanzu package repository add custom-cap-repo --url ghcr.io/warroyo/tpk8s-custom-
 
 at this point you should see the capability in the UI and be able to install it following the normal process for any capability
 
+![alt text](image.png)
 
 ## Creating custom packages
 

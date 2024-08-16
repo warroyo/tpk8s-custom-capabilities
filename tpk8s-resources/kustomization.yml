@@ -5,7 +5,7 @@ fullName:
 spec:
   atomicSpec:
     interval: 300s
-    path: capabilities
+    path: package-repos
     prune: true
     source:
       name: capabilities
