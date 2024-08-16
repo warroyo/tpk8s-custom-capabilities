@@ -10,8 +10,8 @@ metadata:
         "vendor": "External Secrets",
         "tags": [ "Secrets Management" ],
         "groupVersionKinds": [
-          { "apiVersion": " external-secrets.io/v1beta1", "kind": "ExternalSecret" },
-          { "apiVersion": " external-secrets.io/v1beta1", "kind": "SecretStore" }
+          { "apiVersion": "external-secrets.io/v1beta1", "kind": "ExternalSecret" },
+          { "apiVersion": "external-secrets.io/v1beta1", "kind": "SecretStore" }
         ]
       }]
   creationTimestamp: null
@@ -20,7 +20,7 @@ metadata:
   name: external-secrets.external-secrets.io.0.10.0
 spec:
   refName: external-secrets.external-secrets.io
-  releasedAt: "2024-08-16T18:17:01Z"
+  releasedAt: "2024-08-16T18:58:35Z"
   template:
     spec:
       deploy:

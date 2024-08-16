@@ -3,12 +3,12 @@ kind: PackageRepository
 metadata:
   annotations:
     kctrl.carvel.dev/repository-version: 1.0.0
-  creationTimestamp: "2024-08-16T18:17:13Z"
+  creationTimestamp: "2024-08-16T18:58:46Z"
   name: custom-cap.field.tanzu.com
 spec:
   fetch:
     imgpkgBundle:
-      image: ghcr.io/warroyo/tpk8s-custom-capabilities/custom-cap-repo@sha256:a33faa9a1ce1decee7b2ef0e14dd1baa58e6a4520b1c8ca96d587cb8e4d3feab
+      image: ghcr.io/warroyo/tpk8s-custom-capabilities/custom-cap-repo@sha256:578303b869a1658a8aedec0a6b7b222a45f357fe2b7663eff6c8055587c62102
 status:
   conditions: null
   friendlyDescription: ""
