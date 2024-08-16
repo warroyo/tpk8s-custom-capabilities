@@ -87,7 +87,7 @@ tanzu project use your-proj
 tanzu package repository add custom-cap-repo --url ghcr.io/warroyo/tpk8s-custom-capabilities/custom-cap-repo:1.0.0
 ```
 
-at this point you should see the capability in the UI and be able to install it following the normal process for any capability
+at this point you should see the capability in the UI and be able to install it following the normal process for any capability. In this example you will need chaneg the package install name to `external-secrets` before clickng "install" becuase the helm chart uses this name in places that don't allow special characters.
 
 ![alt text](image.png)
 
